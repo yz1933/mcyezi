@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>免费云电脑 · mc椰子</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%2360a5fa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='4' y='4' width='24' height='24' rx='9' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="icon" href="assets/favicon.png">
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap">
 <style>
 /* ===== mc椰子 · 蓝色 Liquid Glass 液态玻璃共享样式 ===== */
@@ -441,5 +441,76 @@ footer{padding:34px 0 40px}
 })();
 
 </script>
+
+<!-- ===== 进入即弹 · 更新公告弹窗 ===== -->
+<div class="nm-mask" id="nmNotice" aria-hidden="true">
+  <div class="nm-card" role="dialog" aria-modal="true" aria-labelledby="nmTitle">
+    <img class="nm-avatar" src="assets/notice.jpg" alt="公告头像">
+    <div class="nm-ver">V2.0.0</div>
+    <h3 id="nmTitle">更新公告</h3>
+    <div class="nm-body">
+      <div class="nm-step" data-step="1">
+        <div class="nm-item">
+          <div class="nm-item-title">UI 大重改</div>
+          <div class="nm-item-desc">本次站点迎来全面界面焕新，整体改为蓝色液态玻璃风格，配色、卡片排版与按钮动效都经过重新打磨；导航、下载入口和信息分区也做了梳理，浏览起来更清爽直观。</div>
+        </div>
+      </div>
+      <div class="nm-step" data-step="2" hidden>
+        <div class="nm-item">
+          <div class="nm-item-title">更换建站平台</div>
+          <div class="nm-item-desc">本站已迁移至新的建站平台重新搭建与维护。后续定制系统、原版镜像、常用软件与游戏下载入口都会在新平台持续更新，相关资源链接也会逐步统一整理。</div>
+        </div>
+        <p class="nm-note">如需反馈问题或建议，可回到首页点击「联系我」或「我们团队」按钮留言。</p>
+      </div>
+    </div>
+    <button class="nm-btn" id="nmOk">我知道了</button>
+  </div>
+</div>
+<style>
+.nm-mask{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(15,39,64,.38);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+.nm-mask.show{opacity:1;visibility:visible}
+.nm-card{position:relative;width:100%;max-width:400px;max-height:78vh;overflow-y:auto;border-radius:24px;padding:30px 26px 24px;text-align:center;background:linear-gradient(160deg,rgba(255,255,255,.62),rgba(255,255,255,.22) 55%,rgba(255,255,255,.30));border:1px solid rgba(255,255,255,.65);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);box-shadow:0 24px 60px rgba(37,99,235,.28),inset 0 1px 1px rgba(255,255,255,.8);transform:translateY(18px) scale(.96);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.nm-mask.show .nm-card{transform:none}
+.nm-avatar{width:100%;max-width:300px;height:auto;display:block;margin:0 auto 14px;border-radius:18px;object-fit:contain;box-shadow:0 10px 26px rgba(37,99,235,.25)}
+.nm-ver{display:inline-block;margin:0 auto 10px;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.06em;color:#2563eb;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.2)}
+.nm-card h3{font-size:20px;font-weight:700;color:#0f2740;margin-bottom:14px}
+.nm-body{display:flex;flex-direction:column;gap:12px;font-size:14px;color:#33506b;text-align:left}
+.nm-item{display:flex;flex-direction:column;gap:5px;padding:13px 15px;border-radius:14px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.12)}
+.nm-item-title{font-size:14px;font-weight:600;color:#2563eb}
+.nm-item-desc{font-size:13px;color:#33506b;line-height:1.65}
+.nm-note{margin-top:2px;font-size:12px;color:#55708a;text-align:center;line-height:1.6}
+.nm-btn{margin-top:20px;width:100%;border:none;border-radius:16px;padding:13px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;background:linear-gradient(135deg,#2563eb,#60a5fa);box-shadow:0 12px 26px rgba(37,99,235,.32)}
+.nm-btn:active{transform:scale(.98)}
+</style>
+<script>
+(function(){
+  var mask=document.getElementById('nmNotice');
+  if(!mask) return;
+  var steps=mask.querySelectorAll('.nm-step');
+  var btn=document.getElementById('nmOk');
+  var cur=0;
+  var close=function(){
+    mask.classList.remove('show');
+    mask.setAttribute('aria-hidden','true');
+    mask.style.pointerEvents='none';
+    document.body.style.overflow='';
+  };
+  function render(){
+    for(var i=0;i<steps.length;i++){ steps[i].hidden=(i!==cur); }
+  }
+  if(btn){
+    btn.addEventListener('click',function(){
+      if(cur<steps.length-1){ cur++; render(); } else { close(); }
+    });
+  }
+  document.body.style.overflow='hidden';
+  requestAnimationFrame(function(){
+    mask.style.pointerEvents='auto';
+    mask.classList.add('show');
+    mask.setAttribute('aria-hidden','false');
+  });
+})();
+</script>
 </body>
+
 </html>
